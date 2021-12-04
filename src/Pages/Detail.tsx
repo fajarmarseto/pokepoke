@@ -43,7 +43,17 @@ const Detail: FC = () => {
           </Button>
         </Grid>
       </Grid>
-      <PokeDetail pokemon={detail} />
+      <PokeDetail
+        id={detail.id}
+        name={detail.name}
+        sprites={detail.sprites}
+        height={detail.height}
+        weight={detail.weight}
+        stats={detail.stats}
+        abilities={detail.abilities}
+        types={detail.types}
+        moves={detail.moves}
+      />
     </Container>
   );
 };

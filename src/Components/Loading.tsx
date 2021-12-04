@@ -23,14 +23,15 @@ interface Props {
 export const Loading: FC<Props> = ({ type }) => {
   const classes = useStyles();
 
-  function setHeight(type: string) {
+  const setHeight = (type: string) => {
     switch (type) {
       case "full-page":
         return "95vh";
       default:
         return "1vh";
     }
-  }
+  };
+
   return (
     <div className={classes.main}>
       <Grid
