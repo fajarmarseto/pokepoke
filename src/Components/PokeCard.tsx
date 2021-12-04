@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import { PASCAL_CASE } from "../Helpers";
 import {
   Card,
@@ -53,10 +54,14 @@ interface Props {
 }
 
 export const PokeCard: FC<Props> = ({ pokemon }) => {
+  const navigate = useNavigate();
   const classes = useStyles();
 
   return (
-    <Card className={classes.card}>
+    <Card
+      className={classes.card}
+      onClick={() => navigate(`/detail/${pokemon.name}`)}
+    >
       <CardActionArea>
         <CardMedia
           className={classes.cardMedia}

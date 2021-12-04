@@ -1,7 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
+import { useParams } from "react-router-dom";
 
-function Detail() {
-  return <div>Detail</div>;
-}
+const Detail: FC = () => {
+  const { name } = useParams();
+  return <div>Detail: {name}</div>;
+};
 
 export default Detail;

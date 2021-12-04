@@ -32,11 +32,7 @@ const Home: FC = () => {
 
   useEffect(() => {
     if (!loading) setPokemons(results);
-  }, [loading, pokemons]);
-
-  function moreLimit() {
-    setLimit(limit + 20);
-  }
+  }, [loading, results]);
 
   if (error) {
     alert(error.message);
@@ -60,7 +56,7 @@ const Home: FC = () => {
           xl={12}
         >
           {!loading ? (
-            <Button variant="outlined" onClick={moreLimit}>
+            <Button variant="outlined" onClick={() => setLimit(limit + 20)}>
               SEE MORE
             </Button>
           ) : (

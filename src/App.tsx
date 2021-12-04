@@ -14,7 +14,7 @@ const App: FC = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/detail" element={<Detail />} />
+          <Route path="/detail/:name" element={<Detail />} />
           <Route path="/my-pocket" element={<MyPocket />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

@@ -34,7 +34,7 @@ export const Loading: FC<Props> = ({ type }) => {
         spacing={0}
         direction="column"
         alignItems="center"
-        style={type == undefined ? { height: "1vh" } : { height: "95vh" }}
+        style={type === undefined ? { height: "1vh" } : { height: "95vh" }}
       >
         <img src={pokeball} alt="pokeball"></img>
         <Typography variant="subtitle2">Loading...</Typography>
