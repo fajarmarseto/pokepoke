@@ -1,9 +1,51 @@
-import React, { FC } from "react";
-import { useParams } from "react-router-dom";
+import React, { FC, useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Container, Grid, Button } from "@mui/material";
+import { useQuery } from "@apollo/client";
+import { GET_POKEMON_DETAIL } from "../Services/Queries/pokemon";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import PokeDetail from "../Components/PokeDetail";
+import { Loading } from "../Components/Loading";
 
 const Detail: FC = () => {
   const { name } = useParams();
-  return <div>Detail: {name}</div>;
+  const navigate = useNavigate();
+
+  const {
+    loading,
+    error,
+    data: { pokemon = [] } = {},
+  } = useQuery(GET_POKEMON_DETAIL, {
+    variables: { name: name },
+  });
+  const [detail, setDetail] = useState(pokemon);
+
+  useEffect(() => {
+    if (!loading) setDetail(pokemon);
+  }, [loading, pokemon]);
+
+  if (loading) {
+    return <Loading type="full-page" />;
+  } else if (error) {
+    alert(error.message);
+  }
+
+  return (
+    <Container maxWidth="sm">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Button
+            variant="text"
+            startIcon={<ArrowBackIosIcon />}
+            onClick={() => navigate("/")}
+          >
+            Back
+          </Button>
+        </Grid>
+      </Grid>
+      <PokeDetail pokemon={detail} />
+    </Container>
+  );
 };
 
 export default Detail;

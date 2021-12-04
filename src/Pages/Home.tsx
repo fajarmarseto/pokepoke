@@ -60,7 +60,7 @@ const Home: FC = () => {
               SEE MORE
             </Button>
           ) : (
-            <Loading />
+            <Loading type={pokemons.length === 0 ? "full-page" : "default"} />
           )}
         </Grid>
       </Grid>

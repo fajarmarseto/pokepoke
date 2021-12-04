@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, CircularProgress } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import pokeball from "../Assets/Images/pokeball.png";
 
 const useStyles = makeStyles({
   main: {
@@ -14,18 +13,24 @@ const useStyles = makeStyles({
     display: "table-cell !important",
     verticalAlign: "middle",
     color: "#FC997C",
-    "& img": {
-      width: "60px",
-    },
   },
 });
 
 interface Props {
-  type?: string;
+  type: string;
 }
 
 export const Loading: FC<Props> = ({ type }) => {
   const classes = useStyles();
+
+  function setHeight(type: string) {
+    switch (type) {
+      case "full-page":
+        return "95vh";
+      default:
+        return "1vh";
+    }
+  }
   return (
     <div className={classes.main}>
       <Grid
@@ -34,9 +39,9 @@ export const Loading: FC<Props> = ({ type }) => {
         spacing={0}
         direction="column"
         alignItems="center"
-        style={type === undefined ? { height: "1vh" } : { height: "95vh" }}
+        style={{ height: setHeight(type) }}
       >
-        <img src={pokeball} alt="pokeball"></img>
+        <CircularProgress color="inherit" />
         <Typography variant="subtitle2">Loading...</Typography>
       </Grid>
     </div>
