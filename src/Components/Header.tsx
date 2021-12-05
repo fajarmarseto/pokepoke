@@ -1,16 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { Link } from "react-router-dom";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Box,
-  List,
-  ListItem,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, List, ListItem } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import explore from "../Assets/Icons/explore.png";
 import pocket from "../Assets/Icons/pocket.png";
+import { AppContext } from "../Services/Store";
 
 const useStyles = makeStyles({
   root: {
@@ -43,6 +37,10 @@ const useStyles = makeStyles({
 
 const Header: FC = () => {
   const classes = useStyles();
+  const {
+    state: { myPocket },
+  } = useContext(AppContext);
+
   return (
     <AppBar>
       <Toolbar className={classes.center}>
@@ -70,7 +68,7 @@ const Header: FC = () => {
               <Typography variant="caption" noWrap component="div">
                 My Pokemon
                 <br />
-                Total Owned: 0
+                Total Owned: {myPocket.length}
               </Typography>
             </ListItem>
           </List>

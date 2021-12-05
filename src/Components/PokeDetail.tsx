@@ -1,5 +1,6 @@
-import React, { FC, useReducer } from "react";
-import { PASCAL_CASE } from "../Helpers";
+import React, { FC, useReducer, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { PASCAL_CASE, GET_LOCAL_STORAGE, SET_LOCAL_STORAGE } from "../Helpers";
 import { GET_STATS, GET_TYPE_COLOR } from "../Services/Constants";
 import {
   Divider,
@@ -15,6 +16,7 @@ import { makeStyles } from "@mui/styles";
 import CatchDialog from "./CatchDialog";
 import pokeball from "../Assets/Images/pokeball.png";
 import pokeballColor from "../Assets/Images/pokeball-colored.png";
+import { AppContext } from "../Services/Store";
 
 const useStyles = makeStyles({
   catch: {
@@ -92,6 +94,8 @@ const reducer = (state, action) => {
       return { dialogVisible: true, type: "success" };
     case "showDialogFailed":
       return { dialogVisible: true, type: "failed" };
+    case "showDialogSaved":
+      return { dialogVisible: true, type: "saved" };
     case "closeDialog":
       return { dialogVisible: false, type: "" };
     default:
@@ -111,6 +115,8 @@ const PokeDetail: FC<Props> = ({
   moves,
 }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
+  const { setState } = useContext(AppContext);
   const [state, dispatch] = useReducer(reducer, {
     dialogVisible: false,
     type: "",
@@ -133,6 +139,26 @@ const PokeDetail: FC<Props> = ({
 
   const closeDialog = () => {
     dispatch({ type: "closeDialog" });
+    if (state.type === "saved") navigate("/");
+  };
+
+  const handleSubmit = (myPokeName) => {
+    closeDialog();
+    let myPocket = GET_LOCAL_STORAGE("myPocket");
+    myPocket.push({
+      myPokeName,
+      name,
+      sprites,
+      height,
+      weight,
+      stats,
+      abilities,
+      types,
+      moves,
+    });
+    SET_LOCAL_STORAGE("myPocket", myPocket);
+    setState({ myPocket: myPocket });
+    dispatch({ type: "showDialogSaved" });
   };
 
   return (
@@ -252,7 +278,8 @@ const PokeDetail: FC<Props> = ({
         visible={state.dialogVisible}
         type={state.type}
         pokemon={{ name: name, image: sprites && sprites.back_default }}
-        handleClose={() => closeDialog()}
+        handleClose={closeDialog}
+        handleSubmit={handleSubmit}
       />
     </Card>
   );

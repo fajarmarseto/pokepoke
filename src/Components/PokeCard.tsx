@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PASCAL_CASE } from "../Helpers";
 import {
@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { AppContext } from "../Services/Store";
 
 const useStyles = makeStyles({
   card: {
@@ -56,6 +57,13 @@ interface Props {
 export const PokeCard: FC<Props> = ({ pokemon }) => {
   const navigate = useNavigate();
   const classes = useStyles();
+  const {
+    state: { myPocket },
+  } = useContext(AppContext);
+
+  const owned = (pokemonName) => {
+    return myPocket.filter((e) => e.name === pokemonName).length;
+  };
 
   return (
     <Card
@@ -75,7 +83,7 @@ export const PokeCard: FC<Props> = ({ pokemon }) => {
           </Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
-          <Typography variant="body2">Owned: 0</Typography>
+          <Typography variant="body2">Owned: {owned(pokemon.name)}</Typography>
         </CardActions>
       </CardActionArea>
     </Card>

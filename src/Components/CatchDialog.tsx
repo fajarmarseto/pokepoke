@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { PASCAL_CASE } from "../Helpers";
+import { PASCAL_CASE, GET_LOCAL_STORAGE } from "../Helpers";
 import {
   Slide,
   Dialog,
@@ -12,8 +12,9 @@ import {
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import pokeballColor from "../Assets/Images/pokeball-colored.png";
+import checked from "../Assets/Icons/checked.png";
 
-type TypeDialog = "success" | "failed";
+type TypeDialog = "success" | "failed" | "saved";
 
 interface Props {
   visible: boolean;
@@ -23,6 +24,7 @@ interface Props {
     image: string;
   };
   handleClose: () => void;
+  handleSubmit: (name: string) => void;
 }
 
 const Transition = React.forwardRef(function Transition(
@@ -34,15 +36,50 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const CatchDialog: FC<Props> = ({ visible, type, pokemon, handleClose }) => {
+const CatchDialog: FC<Props> = ({
+  visible,
+  type,
+  pokemon,
+  handleClose,
+  handleSubmit,
+}) => {
   const [pokeName, setPokeName] = useState("");
+  const [errorInput, setErrorInput] = useState(false);
+  const [errorText, setErrorText] = useState("");
+
+  const nameExistValidate = (value) => {
+    let myPocket = GET_LOCAL_STORAGE("myPocket");
+    const exist = myPocket.find(
+      (e) => e.myPokeName === value && e.name === pokemon.name
+    );
+    if (exist !== undefined) {
+      setErrorInput(true);
+      setErrorText("The Name already exists");
+    } else {
+      setErrorInput(false);
+      setErrorText("");
+    }
+  };
 
   const handleChange = (event) => {
+    if (event.target.value.length > 0) {
+      setErrorInput(false);
+    }
+    nameExistValidate(event.target.value);
     setPokeName(event.target.value);
   };
 
   const onSave = () => {
-    console.log(pokeName);
+    if (pokeName.length === 0 || errorText.length > 0) setErrorInput(true);
+    else handleSubmit(pokeName);
+    setPokeName("");
+  };
+
+  const onClose = () => {
+    setPokeName("");
+    setErrorInput(false);
+    setErrorText("");
+    handleClose();
   };
 
   return (
@@ -50,7 +87,7 @@ const CatchDialog: FC<Props> = ({ visible, type, pokemon, handleClose }) => {
       open={visible}
       TransitionComponent={Transition}
       keepMounted
-      onClose={handleClose}
+      onClose={onClose}
       maxWidth="xs"
       fullWidth={true}
       style={{ textAlign: "center" }}
@@ -58,6 +95,7 @@ const CatchDialog: FC<Props> = ({ visible, type, pokemon, handleClose }) => {
       <DialogTitle>
         {type === "success" && "Congratulations!!!"}
         {type === "failed" && "Failed!!!"}
+        {type === "saved" && "Saved!!!"}
       </DialogTitle>
       {type === "success" && (
         <DialogContent>
@@ -76,6 +114,8 @@ const CatchDialog: FC<Props> = ({ visible, type, pokemon, handleClose }) => {
             onChange={handleChange}
             size="small"
             required
+            error={errorInput}
+            helperText={errorText}
             style={{ marginTop: 15 }}
           />
         </DialogContent>
@@ -88,8 +128,13 @@ const CatchDialog: FC<Props> = ({ visible, type, pokemon, handleClose }) => {
           </Typography>
         </DialogContent>
       )}
+      {type === "saved" && (
+        <DialogContent sx={{ pt: "20px !important" }}>
+          <img alt="dialog-poke" src={checked} style={{ maxHeight: 100 }} />
+        </DialogContent>
+      )}
       <DialogActions style={{ justifyContent: "center" }}>
-        <Button onClick={handleClose}>Close</Button>
+        <Button onClick={onClose}>Close</Button>
         {type === "success" && (
           <Button type="submit" onClick={onSave}>
             Save
