@@ -39,10 +39,10 @@ const Home: FC = () => {
   }
 
   return (
-    <Container maxWidth="xl">
-      <Grid container spacing={3} alignItems="center">
+    <Container maxWidth="xl" sx={{ pt: 10 }}>
+      <Grid container spacing={3} style={{ justifyContent: "center" }}>
         {pokemons.map((item) => (
-          <Grid item key={item.id} xs={6} sm={6} md={4} lg={2} xl={2}>
+          <Grid item key={item.id} xs={6} sm={4} md={3} lg={2} xl={2}>
             <PokeCard pokemon={item} />
           </Grid>
         ))}

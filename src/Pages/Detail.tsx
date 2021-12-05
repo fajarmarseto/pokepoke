@@ -31,7 +31,7 @@ const Detail: FC = () => {
   }
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" sx={{ pt: 10 }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Button
