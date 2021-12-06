@@ -1,4 +1,4 @@
-import React, { FC, useReducer, useContext } from "react";
+import React, { FC, useState, useReducer, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { PASCAL_CASE, GET_LOCAL_STORAGE, SET_LOCAL_STORAGE } from "../Helpers";
 import { GET_STATS, GET_TYPE_COLOR } from "../Services/Constants";
@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CatchDialog from "./CatchDialog";
+import ReleaseDialog from "./ReleaseDialog";
 import pokeball from "../Assets/Images/pokeball.png";
 import pokeballColor from "../Assets/Images/pokeball-colored.png";
 import pokeballOpen from "../Assets/Images/pokeball-open.png";
@@ -112,7 +113,7 @@ const reducer = (state, action) => {
       return { dialogVisible: true, type: "failed" };
     case "showDialogSaved":
       return { dialogVisible: true, type: "saved" };
-    case "closeDialog":
+    case "closeCatchDialog":
       return { dialogVisible: false, type: "" };
     default:
       return state;
@@ -133,10 +134,12 @@ const PokeDetail: FC<Props> = ({
   const { myPokeName } = useParams();
   const navigate = useNavigate();
   const { setState } = useContext(AppContext);
-  const [state, dispatch] = useReducer(reducer, {
+  const [catchState, dispatch] = useReducer(reducer, {
     dialogVisible: false,
     type: "",
   });
+
+  const [releaseState, setReleaseState] = useState(false);
 
   const statColor = (value: number) => {
     if (value > 90) return "primary";
@@ -153,13 +156,13 @@ const PokeDetail: FC<Props> = ({
     }
   };
 
-  const closeDialog = () => {
-    dispatch({ type: "closeDialog" });
-    if (state.type === "saved") navigate("/");
+  const closeCatchDialog = () => {
+    dispatch({ type: "closeCatchDialog" });
+    if (catchState.type === "saved") navigate("/");
   };
 
   const handleSubmit = (myPokeName) => {
-    closeDialog();
+    closeCatchDialog();
     let myPocket = GET_LOCAL_STORAGE("myPocket");
     myPocket.push({
       myPokeName,
@@ -177,6 +180,26 @@ const PokeDetail: FC<Props> = ({
     dispatch({ type: "showDialogSaved" });
   };
 
+  const handleAction = () => {
+    if (myPokeName) releasePokemon();
+    else catchPokemon();
+  };
+
+  const releasePokemon = () => {
+    const myPocket = GET_LOCAL_STORAGE("myPocket");
+    const result = myPocket.filter(
+      (e) => !(e.myPokeName === myPokeName && e.name === name)
+    );
+    SET_LOCAL_STORAGE("myPocket", result);
+    setState({ myPocket: result });
+    setReleaseState(true);
+  };
+
+  const closeReleaseDialog = () => {
+    setReleaseState(false);
+    navigate("/my-pocket");
+  };
+
   return (
     <Card sx={{ width: "100%", boxShadow: "unset" }}>
       {sprites && (
@@ -188,7 +211,7 @@ const PokeDetail: FC<Props> = ({
         />
       )}
       <Divider>
-        <div className={classes.catch} onClick={() => catchPokemon()}>
+        <div className={classes.catch} onClick={handleAction}>
           {myPokeName ? (
             <div className={`pokeball ${classes.pokeballRelease}`}></div>
           ) : (
@@ -304,11 +327,16 @@ const PokeDetail: FC<Props> = ({
           ))}
       </CardContent>
       <CatchDialog
-        visible={state.dialogVisible}
-        type={state.type}
+        visible={catchState.dialogVisible}
+        type={catchState.type}
         pokemon={{ name: name, image: sprites && sprites.back_default }}
-        handleClose={closeDialog}
+        handleClose={closeCatchDialog}
         handleSubmit={handleSubmit}
+      />
+      <ReleaseDialog
+        visible={releaseState}
+        pokemon={{ name: name, image: sprites && sprites.back_default }}
+        handleClose={closeReleaseDialog}
       />
     </Card>
   );

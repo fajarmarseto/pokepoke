@@ -95,7 +95,7 @@ const CatchDialog: FC<Props> = ({
       <DialogTitle>
         {type === "success" && "Congratulations!!!"}
         {type === "failed" && "Failed!!!"}
-        {type === "saved" && "Saved!!!"}
+        {type === "saved" && `Your ${PASCAL_CASE(pokemon.name)} Saved!!!`}
       </DialogTitle>
       {type === "success" && (
         <DialogContent>

@@ -6,6 +6,7 @@ import { GET_POKEMON_DETAIL } from "../Services/Queries/pokemon";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import PokeDetail from "../Components/PokeDetail";
 import { Loading } from "../Components/Loading";
+import PageNotFound from "../Components/PageNotFound";
 
 const Detail: FC = () => {
   const { name, myPokeName } = useParams();
@@ -18,18 +19,21 @@ const Detail: FC = () => {
   } = useQuery(GET_POKEMON_DETAIL, {
     variables: { name: name },
   });
+
   const [detail, setDetail] = useState(pokemon);
 
   useEffect(() => {
     if (!loading) setDetail(pokemon);
   }, [loading, pokemon]);
 
+  /// Loading and error validation
   if (loading) {
     return <Loading type="full-page" />;
   } else if (error) {
     alert(error.message);
   }
 
+  /// Configuration for detail pokemon, (owned and unouwned)
   const handleBackNavigation = () => {
     if (myPokeName) navigate("/my-pocket");
     else navigate("/");
@@ -48,16 +52,20 @@ const Detail: FC = () => {
           </Button>
         </Grid>
       </Grid>
-      <PokeDetail
-        name={detail.name}
-        sprites={detail.sprites}
-        height={detail.height}
-        weight={detail.weight}
-        stats={detail.stats}
-        abilities={detail.abilities}
-        types={detail.types}
-        moves={detail.moves}
-      />
+      {!detail.name ? (
+        <PageNotFound />
+      ) : (
+        <PokeDetail
+          name={detail.name}
+          sprites={detail.sprites}
+          height={detail.height}
+          weight={detail.weight}
+          stats={detail.stats}
+          abilities={detail.abilities}
+          types={detail.types}
+          moves={detail.moves}
+        />
+      )}
     </Container>
   );
 };

@@ -6,7 +6,7 @@ const useStyles = makeStyles({
   main: {
     display: "table",
     width: "100%",
-    height: "90vh",
+    height: "80vh",
     textAlign: "center",
     color: "#888",
   },
