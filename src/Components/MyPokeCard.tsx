@@ -1,6 +1,6 @@
-import React, { FC, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { FC } from "react";
 import { PASCAL_CASE } from "../Helpers";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardActionArea,
@@ -10,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { AppContext } from "../Services/Store";
 
 const useStyles = makeStyles({
   card: {
@@ -46,44 +45,37 @@ const useStyles = makeStyles({
 
 interface Props {
   pokemon: {
-    id: number;
     name: string;
-    image: string;
-    artwork: string;
-    dreamworld: string;
+    myPokeName: string;
+    sprites: {
+      front_default: string;
+    };
   };
 }
 
-export const PokeCard: FC<Props> = ({ pokemon }) => {
+export const MyPokeCard: FC<Props> = ({ pokemon }) => {
   const navigate = useNavigate();
   const classes = useStyles();
-  const {
-    state: { myPocket },
-  } = useContext(AppContext);
-
-  const owned = (pokemonName) => {
-    return myPocket.filter((e) => e.name === pokemonName).length;
-  };
 
   return (
     <Card
       className={classes.card}
-      onClick={() => navigate(`/detail/${pokemon.name}`)}
+      onClick={() => navigate(`/detail/${pokemon.name}/${pokemon.myPokeName}`)}
     >
       <CardActionArea>
         <CardMedia
           className={classes.cardMedia}
           component="img"
           alt="card-img"
-          image={pokemon.image}
+          image={pokemon.sprites.front_default}
         />
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h6" component="div">
-            {PASCAL_CASE(pokemon.name)}
+            {PASCAL_CASE(pokemon.myPokeName)}
           </Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
-          <Typography variant="body2">Owned: {owned(pokemon.name)}</Typography>
+          <Typography variant="body2">{PASCAL_CASE(pokemon.name)}</Typography>
         </CardActions>
       </CardActionArea>
     </Card>

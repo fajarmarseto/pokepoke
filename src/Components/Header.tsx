@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, List, ListItem } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import explore from "../Assets/Icons/explore.png";
+import exploreColor from "../Assets/Icons/explore-color.png";
 import pocket from "../Assets/Icons/pocket.png";
+import pocketColor from "../Assets/Icons/pocket-color.png";
 import { AppContext } from "../Services/Store";
 
 const useStyles = makeStyles({
@@ -16,6 +18,26 @@ const useStyles = makeStyles({
   link: {
     textDecoration: "none",
     margin: "0 20px",
+    "& ul li .pocket": {
+      backgroundSize: "cover",
+      backgroundImage: `url(${pocket})`,
+    },
+    "& ul li .explore": {
+      backgroundSize: "cover",
+      backgroundImage: `url(${explore})`,
+    },
+    "&:hover": {
+      transform: "scale(1.06)",
+      "& ul li div": {
+        color: "#FC997C",
+      },
+      "& ul li .pocket": {
+        backgroundImage: `url(${pocketColor})`,
+      },
+      "& ul li .explore": {
+        backgroundImage: `url(${exploreColor})`,
+      },
+    },
   },
   listItem: {
     padding: "0 !important",
@@ -29,8 +51,9 @@ const useStyles = makeStyles({
     },
   },
   icons: {
-    padding: 0,
-    maxHeight: 30,
+    padding: "0 !important",
+    width: "25px",
+    height: "25px",
     margin: "auto",
   },
 });
@@ -47,7 +70,7 @@ const Header: FC = () => {
         <Link to="/" className={classes.link}>
           <List dense={true}>
             <ListItem className={classes.listItem}>
-              <img alt="dialog-poke" src={explore} className={classes.icons} />
+              <div className={`${classes.icons} explore`}></div>
             </ListItem>
             <ListItem className={classes.listItem}>
               <Typography variant="caption" noWrap component="div">
@@ -59,10 +82,10 @@ const Header: FC = () => {
           </List>
         </Link>
 
-        <Link to="/" className={classes.link}>
+        <Link to="/my-pocket" className={classes.link}>
           <List dense={true}>
             <ListItem className={classes.listItem}>
-              <img alt="dialog-poke" src={pocket} className={classes.icons} />
+              <div className={`${classes.icons} pocket`}></div>
             </ListItem>
             <ListItem className={classes.listItem}>
               <Typography variant="caption" noWrap component="div">

@@ -8,7 +8,7 @@ import PokeDetail from "../Components/PokeDetail";
 import { Loading } from "../Components/Loading";
 
 const Detail: FC = () => {
-  const { name } = useParams();
+  const { name, myPokeName } = useParams();
   const navigate = useNavigate();
 
   const {
@@ -30,6 +30,11 @@ const Detail: FC = () => {
     alert(error.message);
   }
 
+  const handleBackNavigation = () => {
+    if (myPokeName) navigate("/my-pocket");
+    else navigate("/");
+  };
+
   return (
     <Container maxWidth="sm" sx={{ pt: 10 }}>
       <Grid container spacing={2}>
@@ -37,14 +42,13 @@ const Detail: FC = () => {
           <Button
             variant="text"
             startIcon={<ArrowBackIosIcon />}
-            onClick={() => navigate("/")}
+            onClick={handleBackNavigation}
           >
             Back
           </Button>
         </Grid>
       </Grid>
       <PokeDetail
-        id={detail.id}
         name={detail.name}
         sprites={detail.sprites}
         height={detail.height}

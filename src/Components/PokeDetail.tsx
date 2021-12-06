@@ -1,5 +1,5 @@
 import React, { FC, useReducer, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { PASCAL_CASE, GET_LOCAL_STORAGE, SET_LOCAL_STORAGE } from "../Helpers";
 import { GET_STATS, GET_TYPE_COLOR } from "../Services/Constants";
 import {
@@ -16,25 +16,42 @@ import { makeStyles } from "@mui/styles";
 import CatchDialog from "./CatchDialog";
 import pokeball from "../Assets/Images/pokeball.png";
 import pokeballColor from "../Assets/Images/pokeball-colored.png";
+import pokeballOpen from "../Assets/Images/pokeball-open.png";
 import { AppContext } from "../Services/Store";
 
 const useStyles = makeStyles({
   catch: {
     cursor: "pointer",
+    border: "2px black",
     "&:hover": {
       transform: "scale(1.2)",
-      color: "red",
+      color: "#1976d2",
+      "& .pokeLabel": {
+        fontWeight: 600,
+      },
+    },
+    "& .pokeball": {
+      width: "50px",
+      height: "50px",
+      backgroundSize: "cover",
+      "&:hover": {
+        transform: "scale(1.2)",
+        color: "#1976d2",
+      },
     },
   },
-  pokeball: {
-    width: "50px",
-    height: "50px",
-    backgroundSize: "cover",
+  pokeballCatch: {
     backgroundImage: `url(${pokeball})`,
     "&:hover": {
-      transform: "scale(1.2)",
       backgroundImage: `url(${pokeballColor})`,
-      color: "red",
+    },
+  },
+  pokeballRelease: {
+    margin: "auto",
+    backgroundImage: `url(${pokeballColor})`,
+    "&:hover": {
+      width: "40px",
+      backgroundImage: `url(${pokeballOpen})`,
     },
   },
   cardMedia: {
@@ -49,7 +66,6 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  id: number;
   name: string;
   sprites: {
     front_default: string;
@@ -104,7 +120,6 @@ const reducer = (state, action) => {
 };
 
 const PokeDetail: FC<Props> = ({
-  id,
   name,
   sprites,
   height,
@@ -115,6 +130,7 @@ const PokeDetail: FC<Props> = ({
   moves,
 }) => {
   const classes = useStyles();
+  const { myPokeName } = useParams();
   const navigate = useNavigate();
   const { setState } = useContext(AppContext);
   const [state, dispatch] = useReducer(reducer, {
@@ -173,16 +189,29 @@ const PokeDetail: FC<Props> = ({
       )}
       <Divider>
         <div className={classes.catch} onClick={() => catchPokemon()}>
-          <div className={classes.pokeball}></div>
-          {/* <img src={pokeball} alt="pokeball" height="50px"></img> */}
-          <Typography variant="body2" component="div">
-            Catch!!!
+          {myPokeName ? (
+            <div className={`pokeball ${classes.pokeballRelease}`}></div>
+          ) : (
+            <div className={`pokeball ${classes.pokeballCatch}`}></div>
+          )}
+
+          <Typography variant="body2" component="div" className="pokeLabel">
+            {myPokeName ? "Release!!!" : "Catch!!!"}
           </Typography>
         </div>
       </Divider>
 
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        {myPokeName && (
+          <Typography gutterBottom variant="h4" component="div">
+            {PASCAL_CASE(myPokeName)}
+          </Typography>
+        )}
+        <Typography
+          gutterBottom
+          variant={myPokeName ? "h6" : "h5"}
+          component="div"
+        >
           {name && PASCAL_CASE(name)}
           {types &&
             types.map((e) => (

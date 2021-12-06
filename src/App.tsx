@@ -18,7 +18,8 @@ const App: FC = () => {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/detail/:name" element={<Detail />} />
+            <Route path="/detail/:name/" element={<Detail />} />
+            <Route path="/detail/:name/:myPokeName" element={<Detail />} />
             <Route path="/my-pocket" element={<MyPocket />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
