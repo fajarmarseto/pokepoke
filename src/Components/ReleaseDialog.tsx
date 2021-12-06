@@ -1,13 +1,11 @@
 import React, { FC } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Slide,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  Button,
-  Typography,
-} from "@mui/material";
+import Slide from "@mui/material/Slide";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
 import pokeballOpen from "../Assets/Images/pokeball-open.png";
 import { PASCAL_CASE } from "../Helpers";

@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
-import { Container, Grid, Button } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import makeStyles from "@mui/styles/makeStyles";
 import { useQuery } from "@apollo/client";
 import { GET_POKEMON_LIST } from "../Services/Queries/pokemon";
 import { PokeCard } from "../Components/PokeCard";

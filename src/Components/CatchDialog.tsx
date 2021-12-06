@@ -1,15 +1,13 @@
 import React, { FC, useState } from "react";
 import { PASCAL_CASE, GET_LOCAL_STORAGE } from "../Helpers";
-import {
-  Slide,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Typography,
-  DialogActions,
-  Button,
-  TextField,
-} from "@mui/material";
+import Slide from "@mui/material/Slide";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import Typography from "@mui/material/Typography";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import { TransitionProps } from "@mui/material/transitions";
 import pokeballColor from "../Assets/Images/pokeball-colored.png";
 import checked from "../Assets/Icons/checked.png";

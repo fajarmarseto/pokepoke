@@ -2,17 +2,15 @@ import React, { FC, useState, useReducer, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { PASCAL_CASE, GET_LOCAL_STORAGE, SET_LOCAL_STORAGE } from "../Helpers";
 import { GET_STATS, GET_TYPE_COLOR } from "../Services/Constants";
-import {
-  Divider,
-  Grid,
-  Card,
-  Chip,
-  CardMedia,
-  CardContent,
-  Typography,
-  LinearProgress,
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import Chip from "@mui/material/Chip";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import LinearProgress from "@mui/material/LinearProgress";
+import makeStyles from "@mui/styles/makeStyles";
 import CatchDialog from "./CatchDialog";
 import ReleaseDialog from "./ReleaseDialog";
 import pokeball from "../Assets/Images/pokeball.png";

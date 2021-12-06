@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles({
   main: {

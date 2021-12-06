@@ -1,15 +1,13 @@
 import React, { FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PASCAL_CASE } from "../Helpers";
-import {
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Typography,
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Typography from "@mui/material/Typography";
+import makeStyles from "@mui/styles/makeStyles";
 import { AppContext } from "../Services/Store";
 
 const useStyles = makeStyles({

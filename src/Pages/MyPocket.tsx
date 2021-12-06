@@ -1,8 +1,10 @@
 import React, { FC, useContext } from "react";
-import { Container, Grid, Typography } from "@mui/material";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import { MyPokeCard } from "../Components/MyPokeCard";
 import { AppContext } from "../Services/Store";
-import { makeStyles } from "@mui/styles";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles({
   emptyPocket: {

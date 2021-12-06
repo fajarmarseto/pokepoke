@@ -1,6 +1,8 @@
 import React, { FC } from "react";
-import { Grid, Typography, CircularProgress } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles({
   main: {

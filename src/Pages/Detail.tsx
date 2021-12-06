@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Grid, Button } from "@mui/material";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 import { useQuery } from "@apollo/client";
 import { GET_POKEMON_DETAIL } from "../Services/Queries/pokemon";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";

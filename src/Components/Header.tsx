@@ -1,7 +1,11 @@
 import React, { FC, useContext } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Typography, List, ListItem } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import makeStyles from "@mui/styles/makeStyles";
 import explore from "../Assets/Icons/explore.png";
 import exploreColor from "../Assets/Icons/explore-color.png";
 import pocket from "../Assets/Icons/pocket.png";
