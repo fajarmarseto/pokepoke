@@ -12,6 +12,7 @@ const Detail: FC = () => {
   const { name, myPokeName } = useParams();
   const navigate = useNavigate();
 
+  /// Get Pokemon Detail
   const {
     loading,
     error,
@@ -20,6 +21,7 @@ const Detail: FC = () => {
     variables: { name: name },
   });
 
+  /// State pokemon detail
   const [detail, setDetail] = useState(pokemon);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const Detail: FC = () => {
     alert(error.message);
   }
 
-  /// Configuration for detail pokemon, (owned and unouwned)
+  /// Navigation Config for detail pokemon, (owned and unouwned)
   const handleBackNavigation = () => {
     if (myPokeName) navigate("/my-pocket");
     else navigate("/");

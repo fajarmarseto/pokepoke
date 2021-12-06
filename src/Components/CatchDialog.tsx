@@ -43,10 +43,14 @@ const CatchDialog: FC<Props> = ({
   handleClose,
   handleSubmit,
 }) => {
+  /// State pokemon nickname input
   const [pokeName, setPokeName] = useState("");
+  /// State flag error input
   const [errorInput, setErrorInput] = useState(false);
+  /// State duplicate nickname input
   const [errorText, setErrorText] = useState("");
 
+  /// Find duplication nickname from my pokemon' pocket
   const nameExistValidate = (value) => {
     let myPocket = GET_LOCAL_STORAGE("myPocket");
     const exist = myPocket.find(
@@ -61,6 +65,7 @@ const CatchDialog: FC<Props> = ({
     }
   };
 
+  /// Handling on change input, if empty or duplicate
   const handleChange = (event) => {
     if (event.target.value.length > 0) {
       setErrorInput(false);
@@ -69,12 +74,14 @@ const CatchDialog: FC<Props> = ({
     setPokeName(event.target.value);
   };
 
+  /// Handling before submit validation
   const onSave = () => {
     if (pokeName.length === 0 || errorText.length > 0) setErrorInput(true);
     else handleSubmit(pokeName);
     setPokeName("");
   };
 
+  /// Close dialog
   const onClose = () => {
     setPokeName("");
     setErrorInput(false);

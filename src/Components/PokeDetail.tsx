@@ -17,6 +17,7 @@ import CatchDialog from "./CatchDialog";
 import ReleaseDialog from "./ReleaseDialog";
 import pokeball from "../Assets/Images/pokeball.png";
 import pokeballColor from "../Assets/Images/pokeball-colored.png";
+import pokeballCatching from "../Assets/Images/pokeballCatching.gif";
 import pokeballOpen from "../Assets/Images/pokeball-open.png";
 import { AppContext } from "../Services/Store";
 
@@ -105,6 +106,7 @@ interface Props {
   ];
 }
 
+/// Reducer for dialog action catch pokemon
 const reducer = (state, action) => {
   switch (action.type) {
     case "showDialogSuccess":
@@ -133,14 +135,22 @@ const PokeDetail: FC<Props> = ({
   const classes = useStyles();
   const { myPokeName } = useParams();
   const navigate = useNavigate();
+
+  /// Setstate for store my pokemon
   const { setState } = useContext(AppContext);
+
+  /// Reducer catch dialog
   const [catchState, dispatch] = useReducer(reducer, {
     dialogVisible: false,
     type: "",
   });
 
+  /// State for release pokemon dialog
   const [releaseState, setReleaseState] = useState(false);
+  /// State for loading catch handling
+  const [loadingCatch, setLoadingCatch] = useState(false);
 
+  /// Function for color pokemon stats bar
   const statColor = (value: number) => {
     if (value > 90) return "primary";
     else if (90 >= value && value > 60) return "info";
@@ -148,19 +158,26 @@ const PokeDetail: FC<Props> = ({
     else return "error";
   };
 
+  /// Handling catch pokemon, success probability 50%
   const catchPokemon = () => {
-    if (Math.random() >= 0.5) {
-      dispatch({ type: "showDialogSuccess" });
-    } else {
-      dispatch({ type: "showDialogFailed" });
-    }
+    setLoadingCatch(true);
+    setTimeout(() => {
+      if (Math.random() >= 0.5) {
+        dispatch({ type: "showDialogSuccess" });
+      } else {
+        dispatch({ type: "showDialogFailed" });
+      }
+      setLoadingCatch(false);
+    }, 5000);
   };
 
+  /// Closing dialog after catch pokemon
   const closeCatchDialog = () => {
     dispatch({ type: "closeCatchDialog" });
     if (catchState.type === "saved") navigate("/");
   };
 
+  /// SAVE pokemon to local storage & store
   const handleSubmit = (myPokeName) => {
     closeCatchDialog();
     let myPocket = GET_LOCAL_STORAGE("myPocket");
@@ -180,11 +197,13 @@ const PokeDetail: FC<Props> = ({
     dispatch({ type: "showDialogSaved" });
   };
 
+  /// Configuration (owned or unowned) action
   const handleAction = () => {
     if (myPokeName) releasePokemon();
     else catchPokemon();
   };
 
+  /// RELEASE pokemon, remove from local storage & store
   const releasePokemon = () => {
     const myPocket = GET_LOCAL_STORAGE("myPocket");
     const result = myPocket.filter(
@@ -195,6 +214,7 @@ const PokeDetail: FC<Props> = ({
     setReleaseState(true);
   };
 
+  /// Closing dialog after release
   const closeReleaseDialog = () => {
     setReleaseState(false);
     navigate("/my-pocket");
@@ -214,6 +234,8 @@ const PokeDetail: FC<Props> = ({
         <div className={classes.catch} onClick={handleAction}>
           {myPokeName ? (
             <div className={`pokeball ${classes.pokeballRelease}`}></div>
+          ) : loadingCatch ? (
+            <img className="pokeball" src={pokeballCatching} alt="catching" />
           ) : (
             <div className={`pokeball ${classes.pokeballCatch}`}></div>
           )}

@@ -29,6 +29,7 @@ interface Props {
   handleClose: () => void;
 }
 
+/// Transition dialog modal
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -41,6 +42,7 @@ const Transition = React.forwardRef(function Transition(
 const ReleaseDialog: FC<Props> = ({ visible, pokemon, handleClose }) => {
   const classes = useStyles();
   const { myPokeName } = useParams();
+
   return (
     <Dialog
       open={visible}

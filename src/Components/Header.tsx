@@ -60,6 +60,8 @@ const useStyles = makeStyles({
 
 const Header: FC = () => {
   const classes = useStyles();
+
+  /// Store my pokemon
   const {
     state: { myPocket },
   } = useContext(AppContext);

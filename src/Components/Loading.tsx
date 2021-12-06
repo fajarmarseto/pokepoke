@@ -23,6 +23,7 @@ interface Props {
 export const Loading: FC<Props> = ({ type }) => {
   const classes = useStyles();
 
+  /// Configuration loading page
   const setHeight = (type: string) => {
     switch (type) {
       case "full-page":

@@ -20,7 +20,10 @@ const useStyles = makeStyles({
 const Home: FC = () => {
   const classes = useStyles();
 
+  /// Limit for more pokemon
   const [limit, setLimit] = useState<number>(20);
+
+  /// Get Pokemon List
   const {
     loading,
     error,
@@ -28,6 +31,8 @@ const Home: FC = () => {
   } = useQuery(GET_POKEMON_LIST, {
     variables: { limit: limit, offset: 0 },
   });
+
+  /// State for pokemon list
   const [pokemons, setPokemons] = useState(results);
 
   useEffect(() => {

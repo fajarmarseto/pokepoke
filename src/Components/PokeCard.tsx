@@ -57,10 +57,13 @@ interface Props {
 export const PokeCard: FC<Props> = ({ pokemon }) => {
   const navigate = useNavigate();
   const classes = useStyles();
+
+  /// Store my pokemon
   const {
     state: { myPocket },
   } = useContext(AppContext);
 
+  /// Find qty owned my pokemon
   const owned = (pokemonName) => {
     return myPocket.filter((e) => e.name === pokemonName).length;
   };

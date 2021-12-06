@@ -3,6 +3,7 @@ import { Container, Grid, Typography } from "@mui/material";
 import { MyPokeCard } from "../Components/MyPokeCard";
 import { AppContext } from "../Services/Store";
 import { makeStyles } from "@mui/styles";
+
 const useStyles = makeStyles({
   emptyPocket: {
     marginTop: "50px !important",
@@ -12,8 +13,11 @@ const useStyles = makeStyles({
     color: "#2E4C6D",
   },
 });
+
 const MyPocket: FC = () => {
   const classes = useStyles();
+
+  /// Store My Pokemon List
   const {
     state: { myPocket },
   } = useContext(AppContext);
